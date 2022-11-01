@@ -1,8 +1,10 @@
 let pokemon = [];
+let defaultURL = "https://pokeapi.co/api/v2/pokemon";
 
-const getAllPokemon = async () => {
-  const res = await fetch("https://pokeapi.co/api/v2/pokemon");
+const getAllPokemon = async (url) => {
+  const res = await fetch(url);
   const data = await res.json();
+  defaultURL = data.next;
 
   const getPokemon = async (url) => {
     const res = await fetch(url);
@@ -27,7 +29,7 @@ const displayPokemon = () => {
     return `
         <div class="pokemon">
         <div class="pokemonID">
-          <p>${pokeman.order}</p>
+          <p>${pokeman.id}</p>
         </div>
         <div class="pokemonImg">
           <img
@@ -49,4 +51,11 @@ const displayPokemon = () => {
 
 getAllPokemon().then(() => {
   displayPokemon();
+});
+
+const button = document.querySelector(".button");
+button.addEventListener("click", () => {
+  getAllPokemon(defaultURL).then(() => {
+    displayPokemon();
+  });
 });
